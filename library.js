@@ -49,22 +49,24 @@
 	 */
 
 	var constants = Object.freeze({
-			type: '',	// Either 'oauth' or 'oauth2'
-			name: '',	// Something unique to your OAuth provider in lowercase, like "github", or "nodebb"
-			oauth: {
+			type: nconf.get('oauth:type'),	// Either 'oauth' or 'oauth2'
+			name: nconf.get('oauth:name'),	// Something unique to your OAuth provider in lowercase, like "github", or "nodebb"
+			oauth: nconf.get('oauth:oauth_config'), 
+			/*{
 				requestTokenURL: '',
 				accessTokenURL: '',
 				userAuthorizationURL: '',
 				consumerKey: nconf.get('oauth:key'),	// don't change this line
 				consumerSecret: nconf.get('oauth:secret'),	// don't change this line
-			},
-			oauth2: {
+			},*/
+			oauth2: nconf.get('oauth:oauth2_config'),
+			/* {
 				authorizationURL: '',
 				tokenURL: '',
 				clientID: nconf.get('oauth:id'),	// don't change this line
 				clientSecret: nconf.get('oauth:secret'),	// don't change this line
-			},
-			userRoute: ''	// This is the address to your app's "user profile" API endpoint (expects JSON)
+			},*/
+			userRoute: nconf.get('oauth:userInfoURL')	// This is the address to your app's "user profile" API endpoint (expects JSON)
 		}),
 		configOk = false,
 		OAuth = {}, passportOAuth, opts;
