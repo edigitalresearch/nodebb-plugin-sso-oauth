@@ -29,6 +29,7 @@
 
 	var authenticationController = module.parent.require('./controllers/authentication');
 
+	var InternalOAuthError = module.require('passport-oauth').InternalOAuthError;
 	/**
 	 * REMEMBER
 	 *   Never save your OAuth Key/Secret or OAuth2 ID/Secret pair in code! It could be published and leaked accidentally.
