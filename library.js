@@ -53,20 +53,7 @@
 			type: nconf.get('oauth:type'),	// Either 'oauth' or 'oauth2'
 			name: nconf.get('oauth:name'),	// Something unique to your OAuth provider in lowercase, like "github", or "nodebb"
 			oauth: nconf.get('oauth:oauth_config'), 
-			/*{
-				requestTokenURL: '',
-				accessTokenURL: '',
-				userAuthorizationURL: '',
-				consumerKey: nconf.get('oauth:key'),	// don't change this line
-				consumerSecret: nconf.get('oauth:secret'),	// don't change this line
-			},*/
 			oauth2: nconf.get('oauth:oauth2_config'),
-			/* {
-				authorizationURL: '',
-				tokenURL: '',
-				clientID: nconf.get('oauth:id'),	// don't change this line
-				clientSecret: nconf.get('oauth:secret'),	// don't change this line
-			},*/
 			userRoute: nconf.get('oauth:userInfoURL')	// This is the address to your app's "user profile" API endpoint (expects JSON)
 		}),
 		configOk = false,
@@ -155,8 +142,8 @@
 				name: constants.name,
 				url: '/auth/' + constants.name,
 				callbackURL: '/auth/' + constants.name + '/callback',
-				icon: 'fa-check-square',
-				scope: (constants.scope || '').split(',')
+				icon: 'fa-sign-in',
+				scope: ['email','profile','openid']
 			});
 
 			callback(null, strategies);
@@ -174,17 +161,13 @@
 		console.log(data);
 
 		var profile = {};
-		profile.id = data.id;
+		profile.id = data.sub;
 		profile.displayName = data.name;
 		profile.emails = [{ value: data.email }];
 
 		// Do you want to automatically make somebody an admin? This line might help you do that...
 		// profile.isAdmin = data.isAdmin ? true : false;
-
-		// Delete or comment out the next TWO (2) lines when you are ready to proceed
-		process.stdout.write('===\nAt this point, you\'ll need to customise the above section to id, displayName, and emails into the "profile" object.\n===');
-		return callback(new Error('Congrats! So far so good -- please see server log for details'));
-
+		
 		callback(null, profile);
 	}
 
