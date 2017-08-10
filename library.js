@@ -1,21 +1,6 @@
 (function(module) {
 	"use strict";
 
-	/*
-		Welcome to the SSO OAuth plugin! If you're inspecting this code, you're probably looking to
-		hook up NodeBB with your existing OAuth endpoint.
-
-		Step 1: Fill in the "constants" section below with the requisite informaton. Either the "oauth"
-				or "oauth2" section needs to be filled, depending on what you set "type" to.
-
-		Step 2: Give it a whirl. If you see the congrats message, you're doing well so far!
-
-		Step 3: Customise the `parseUserReturn` method to normalise your user route's data return into
-				a format accepted by NodeBB. Instructions are provided there. (Line 146)
-
-		Step 4: If all goes well, you'll be able to login/register via your OAuth endpoint credentials.
-	*/
-
 	var User = module.parent.require('./user'),
 		Groups = module.parent.require('./groups'),
 		meta = module.parent.require('./meta'),
@@ -30,24 +15,6 @@
 	var authenticationController = module.parent.require('./controllers/authentication');
 
 	var InternalOAuthError = module.require('passport-oauth').InternalOAuthError;
-	/**
-	 * REMEMBER
-	 *   Never save your OAuth Key/Secret or OAuth2 ID/Secret pair in code! It could be published and leaked accidentally.
-	 *   Save it into your config.json file instead:
-	 *
-	 *   {
-	 *     ...
-	 *     "oauth": {
-	 *       "id": "someoauthid",
-	 *       "secret": "youroauthsecret"
-	 *     }
-	 *     ...
-	 *   }
-	 *
-	 *   ... or use environment variables instead:
-	 *
-	 *   `OAUTH__ID=someoauthid OAUTH__SECRET=youroauthsecret node app.js`
-	 */
 
 	var constants = Object.freeze({
 			type: nconf.get('oauth:type'),	// Either 'oauth' or 'oauth2'
@@ -158,7 +125,7 @@
 		// Everything else is optional.
 
 		// Find out what is available by uncommenting this line:
-		console.log(data);
+		//console.log(data);
 
 		var profile = {};
 		profile.id = data.sub;
@@ -167,7 +134,7 @@
 
 		// Do you want to automatically make somebody an admin? This line might help you do that...
 		// profile.isAdmin = data.isAdmin ? true : false;
-		
+
 		callback(null, profile);
 	}
 
